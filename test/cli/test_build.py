@@ -52,8 +52,8 @@ class CondaBuildWhitebox(CondaBuild):
         pass
         # super()._test_package(pkg)
 
-    def _install_package(self, pkg: Path) -> None:
-        pass
+    # def _install_package(self, pkg: Path) -> None:
+    #     pass
 
     def _cleanup(self) -> None:
         super()._cleanup()
@@ -65,6 +65,11 @@ def build_whitebox(
     tmp_path: Path,
 ):
     monkeypatch.setattr("whl2conda.cli.build.CondaBuild", CondaBuildWhitebox)
+
+    # temporarily override conda-bld location
+    conda_bld = tmp_path / "conda-bld"
+    conda_bld.mkdir()
+    monkeypatch.setenv("CONDA_BLD_PATH", str(conda_bld))
 
 
 def test_simple(

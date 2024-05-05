@@ -61,6 +61,9 @@ def build_main(
             It requires that the conda recipe has a build script entry
             of the form `pip install` or `pip wheel`.
             
+            Note that currently it ignores the runtime dependencies and other
+            metadata and always takes them from the wheel.
+            
             This is an experimental feature and is still under active
             change and development.
             """),
