@@ -1,0 +1,47 @@
+{% set project = load_file_data('pyproject.toml')['project'] %}
+
+package:
+  name: simple
+  version: {{ project['version'] }}
+
+source:
+  - path: ..
+
+build:
+  noarch: python
+  script: pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  build:
+    - python 3.10
+    - hatchling
+
+  run:
+    - python {{ project['requires-python'] }}
+    - black >=23.3
+    - quaternion
+    - pytables
+
+test:
+  requires:
+    - pytest
+  imports:
+    - simple
+
+about:
+  home: {{ project['urls']['Homepage'] }}
+  summary: {{ project['description'] }}
+
+extra:
+  authors:
+    {% for author in project['authors'] %}
+    - '{{ author['name'] }} <{{ author['email'] }}>'
+    {% endfor %}
+  keywords:
+    {% for keyword in project['keywords'] %}
+    - '{{ keyword }}'
+    {% endfor %}
+  classifiers:
+    {% for classifier in project['classifiers'] %}
+    - '{{ classifier }}'
+    {% endfor %}
